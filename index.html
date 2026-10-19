@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#6554e8">
+  <title>PurePixelFR — Travel Planner</title>
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <a class="brand" href="#" aria-label="PurePixelFR home">
+        <span class="brand-mark">✈</span>
+        <span><strong>PurePixelFR</strong><small>Ultimate Travel Planner</small></span>
+      </a>
+      <div class="top-actions">
+        <span id="user-label" class="user-label"></span>
+        <button id="sign-out-btn" class="button button-quiet hidden" type="button">Sign out</button>
+      </div>
+    </header>
+
+    <main class="main-content">
+      <section id="auth-view" class="auth-layout">
+        <div class="hero-copy">
+          <p class="eyebrow">YOUR NEXT ADVENTURE STARTS HERE</p>
+          <h1>Plan less stress.<br><span>Travel more.</span></h1>
+          <p class="hero-text">Keep your trips, dates, budgets and travel notes in one calm, organized place.</p>
+          <div class="feature-pills"><span>✦ Trip planning</span><span>✦ Budget overview</span><span>✦ Your private workspace</span></div>
+        </div>
+        <section class="panel auth-panel">
+          <div class="auth-tabs" role="tablist" aria-label="Account options">
+            <button id="login-tab" class="auth-tab active" type="button" role="tab" aria-selected="true">Sign in</button>
+            <button id="signup-tab" class="auth-tab" type="button" role="tab" aria-selected="false">Create account</button>
+          </div>
+          <h2 id="auth-heading">Welcome back</h2>
+          <p id="auth-subheading" class="muted">Sign in to continue planning.</p>
+          <form id="auth-form">
+            <label for="email">Email address</label>
+            <input id="email" name="email" type="email" autocomplete="email" placeholder="you@example.com" required>
+            <label for="password">Password</label>
+            <input id="password" name="password" type="password" autocomplete="current-password" minlength="6" placeholder="At least 6 characters" required>
+            <button id="auth-submit" class="button button-primary full-width" type="submit">Sign in</button>
+          </form>
+          <p id="auth-message" class="form-message" role="status"></p>
+          <p class="fine-print">Your account is managed securely by Supabase Authentication.</p>
+        </section>
+      </section>
+
+      <section id="dashboard-view" class="hidden">
+        <div class="dashboard-heading">
+          <div>
+            <p class="eyebrow">YOUR TRAVEL SPACE</p>
+            <h1>Your trips</h1>
+            <p class="muted">Everything you need for the journey ahead.</p>
+          </div>
+          <button id="new-trip-btn" class="button button-primary" type="button"><span>＋</span> New trip</button>
+        </div>
+
+        <div class="stats-grid">
+          <article class="stat-card"><span class="stat-icon">✈</span><div><p class="stat-label">Total trips</p><strong id="total-trips">0</strong></div></article>
+          <article class="stat-card"><span class="stat-icon">◎</span><div><p class="stat-label">Destinations</p><strong id="total-destinations">0</strong></div></article>
+          <article class="stat-card"><span class="stat-icon">◷</span><div><p class="stat-label">Upcoming trips</p><strong id="upcoming-trips">0</strong></div></article>
+        </div>
+
+        <div class="section-heading"><h2>All trips</h2><button id="refresh-btn" class="button button-quiet" type="button">↻ Refresh</button></div>
+        <div id="trip-list" class="trip-grid"></div>
+        <div id="empty-state" class="empty-state">
+          <div class="empty-illustration">✈</div>
+          <h3>Your next adventure starts here</h3>
+          <p>Create your first trip to organize the destination, dates, budget and notes.</p>
+          <button id="empty-new-trip-btn" class="button button-primary" type="button">Create your first trip</button>
+        </div>
+      </section>
+    </main>
+    <footer class="footer"><span>PurePixelFR Travel Planner</span><span>Made for journeys worth remembering</span></footer>
+  </div>
+
+  <dialog id="trip-dialog" class="trip-dialog">
+    <form id="trip-form" method="dialog">
+      <div class="dialog-heading">
+        <div><p class="eyebrow">NEW ADVENTURE</p><h2>Create your trip</h2></div>
+        <button id="close-dialog-btn" class="icon-button" type="button" aria-label="Close">×</button>
+      </div>
+      <div class="form-grid">
+        <div class="field"><label for="trip-name">Trip name *</label><input id="trip-name" name="name" required maxlength="100" placeholder="Summer Escape"></div>
+        <div class="field"><label for="destination">Destination *</label><input id="destination" name="destination" required maxlength="160" placeholder="Barcelona, Spain"></div>
+        <div class="field"><label for="start-date">Start date</label><input id="start-date" name="start_date" type="date"></div>
+        <div class="field"><label for="end-date">End date</label><input id="end-date" name="end_date" type="date"></div>
+        <div class="field"><label for="currency">Currency</label><select id="currency" name="currency"><option value="USD">USD — US Dollar</option><option value="EUR">EUR — Euro</option><option value="MAD">MAD — Moroccan Dirham</option><option value="GBP">GBP — British Pound</option><option value="CAD">CAD — Canadian Dollar</option></select></div>
+        <div class="field"><label for="budget">Estimated budget</label><input id="budget" name="budget" type="number" min="0" step="0.01" placeholder="1500"></div>
+        <div class="field"><label for="trip-type">Trip type</label><select id="trip-type" name="trip_type"><option>Vacation</option><option>Business</option><option>Weekend getaway</option><option>Family trip</option><option>Adventure</option><option>Other</option></select></div>
+        <div class="field"><label for="group-size">Group size</label><input id="group-size" name="group_size" type="number" min="1" max="100" value="1" required></div>
+        <div class="field field-wide"><label for="goal">Trip goal / notes</label><textarea id="goal" name="goal" rows="3" maxlength="2000" placeholder="Relax, celebrate, explore..."></textarea></div>
+      </div>
+      <p id="trip-message" class="form-message" role="status"></p>
+      <div class="dialog-actions"><button id="cancel-trip-btn" class="button button-secondary" type="button">Cancel</button><button id="save-trip-btn" class="button button-primary" type="submit">Create trip</button></div>
+    </form>
+  </dialog>
+
+  <dialog id="detail-dialog" class="trip-dialog detail-dialog">
+    <div id="trip-detail-content"></div>
+  </dialog>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <script type="module" src="./app.js"></script>
+</body>
+</html>
